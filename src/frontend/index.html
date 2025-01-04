@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Chat</title>
+</head>
+
+<body>
+    <main>
+        <div id="name-popup" class="popup">
+            <div class="popup-content">
+                <h2>Bem-vindo ao SafeTalk!</h2>
+                <p>Por favor, insira seu nome para começar:</p>
+                <input type="text" id="username-input" placeholder="Digite seu nome...">
+                <button id="start-chat-btn">Entrar</button>
+            </div>
+        </div>
+        <h1>SafeTalk</h1>
+        <ul id="messages" ></ul>
+        <div id="typing-status"></div>
+        <form id="form">
+            <input autocomplete="off" placeholder="Digite sua mensagem.." id="input">
+            <button>Send</button>
+        </form>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+        const message = document.getElementById('messages')
+        const input = document .getElementById('input')
+        const typingStatus = document.getElementById('typing-status');
+        const popup = document.getElementById('name-popup');
+        const usernameInput = document.getElementById('username-input');
+        const startChatBtn = document.getElementById('start-chat-btn');
+        let typingTimeout; // Armazena o temporizador para parar de digitar
+        let userName = ""; // Nome do usuário
+
+        startChatBtn.addEventListener('click', () => {
+            const enteredName = usernameInput.value.trim();
+            if (enteredName) {
+                userName = enteredName;
+                popup.style.display = 'none';
+                input.disabled = false;
+                input.focus();
+                document.querySelector('button').disabled = false;
+            } else {
+                alert("Por favor, insira um nome!");
+            }
+        });
+    
+
+        input.addEventListener('input', () => {
+            clearTimeout(typingTimeout);
+            socket.emit('typing', userName);
+
+            typingTimeout = setTimeout(() => {
+                socket.emit('stopTyping');
+            }, 1500);
+        });
+
+        document.addEventListener('submit', (e) => {
+            e.preventDefault() //Para não atualizar quando clicar em submit 
+
+            if(input.value) {
+                const msg = { content: input.value, name: userName, fromUser: true};
+
+
+                socket.emit('message', msg);
+                input.value = ''
+                typingStatus.textContent = '';
+                clearTimeout(typingTimeout);
+                socket.emit('stopTyping');
+            }
+        });
+
+        socket.on('message', (msg) => {
+            const li = document.createElement('li')
+            li.textContent = `${msg.name}: ${msg.content}`;
+
+            if (msg.fromUser) {
+                li.classList.add('user-message');
+            } else {
+                li.classList.add('other-message');
+            }
+
+            message.appendChild(li);
+            message.scrollTop = message.scrollHeight;
+        });
+
+        // Exibir quando alguém estiver digitando
+        socket.on('typing', (name) => {
+            typingStatus.textContent = `${name} está digitando...`;
+        });
+
+        // Limpar o status de digitação
+        socket.on('stopTyping', () => {
+            typingStatus.textContent = '';
+        });
+    </script>
+</body>
+
+</html>
