@@ -16,7 +16,8 @@ class App {
         this.setupRoutes();
     }
     listenServer() {    
-        this.http.listen(3000, () => console.log('Server is running on port 3000'));
+        const PORT = process.env.PORT || 3000; // Porta dinâmica ou padrão
+        this.http.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
     }
     listenSocket() {
         this.io.on('connection', (socket) => {
@@ -35,9 +36,6 @@ class App {
                 socket.broadcast.emit('typing', name); // Inclui o nome de quem está digitando
             });
 
-            socket.on('typing', (name) => {
-                socket.broadcast.emit('typing', name); // Emitir que alguém está digitando para todos
-            });
 
             socket.on('stopTyping', () => {
                 socket.broadcast.emit('stopTyping'); // Emitir que a pessoa parou de digitar
