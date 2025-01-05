@@ -3,16 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node src/backend/server.js",
+    "start": "tsc && node src/backend/server.js",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev" : "tsx watch src/backend/server.ts"
+    "dev": "tsx watch src/backend/server.ts"
   },
   "keywords": [],
   "author": "iarley",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/express": "^5.0.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   },
