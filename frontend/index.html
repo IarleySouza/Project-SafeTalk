@@ -14,6 +14,9 @@
 
 <body>
     <main>
+        <div id="vinheta">
+            <img src="image/safetalk_gif.gif" alt="Telefone se mexendo">
+        </div>
         <div id="name-popup" class="popup">
             <div>
                 <img src="image/safetalkImg.png" alt="">
@@ -50,6 +53,13 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
+        window.addEventListener('load', () => {
+            const vinheta = document.getElementById('vinheta');
+            setTimeout(() => {
+                vinheta.style.opacity = '0'; // Adicionar transição suave
+                setTimeout(() => vinheta.style.display = 'none', 500); // Remover completamente
+            }, 3000); // 3 segundos de duração
+        });
         var socket = io();
         const message = document.getElementById('messages')
         const input = document.getElementById('input')
