@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 * {
     padding: 0;
     margin: 0;
@@ -5,45 +8,49 @@
 
 body {
     background: #212121;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-style: normal;
 }
 main {
     height: 100%;
 }
+
 /* Estilizar toda a barra de rolagem */
 ::-webkit-scrollbar {
-    width: 12px; 
-    height: 12px; 
+    width: 12px;
+    height: 12px;
 }
+
 /* Estilizar o fundo da barra de rolagem */
 ::-webkit-scrollbar-track {
     background: #212121;
-    border-radius: 10px; 
+    border-radius: 10px;
 }
 
 /* Estilizar o polegar da barra de rolagem (a parte que se move) */
 ::-webkit-scrollbar-thumb {
-    background: #0582CA; 
-    border-radius: 10px; 
-    border: 3px solid #212121; 
+    background: #0582CA;
+    border-radius: 10px;
+    border: 3px solid #212121;
 }
 
 /* Alterar o hover no polegar */
 ::-webkit-scrollbar-thumb:hover {
-    background: #00A6FB; 
+    background: #00A6FB;
 }
 
 /* Alterar quando a barra de rolagem está ativa */
 ::-webkit-scrollbar-thumb:active {
-    background: #003554; 
+    background: #003554;
 }
 
 #typing-status {
     font-weight: bold;
     color: #e0e0e0;
 }
+
 #send-message-btn {
-    background-color: #fff;
     width: 50px;
     height: 50px;
     display: flex;
@@ -52,6 +59,7 @@ main {
     justify-content: center;
     border-radius: 50%;
 }
+
 #send-message-btn:active {
     transform: scale(0.95);
     background-color: #003554;
@@ -63,6 +71,7 @@ h1 {
     color: #fff;
     font-weight: 500;
 }
+
 .header {
     background-color: #0582CA;
     width: 100%;
@@ -71,25 +80,29 @@ h1 {
     align-items: center;
     justify-content: center;
 }
+
 .header h1 {
     margin: 0;
     padding: 0;
     font-weight: bold;
-    
+
 }
+
 .user-message {
     background-color: #00A6FB;
     color: white;
     margin-left: auto;
-    border-radius: 12px 12px 0 12px; /* Bordas arredondadas */
+    border-radius: 12px 12px 0 12px;
+    /* Bordas arredondadas */
     padding: 10px;
     width: 100%;
 }
+
 .other-message {
     background-color: #D9D9D9;
     color: black;
     align-self: flex-start;
-    margin-right: auto; 
+    margin-right: auto;
     border-radius: 12px 12px 12px 0;
 }
 
@@ -105,16 +118,19 @@ h1 {
     gap: 20px;
     position: fixed;
 }
-#form> div {
+
+#form>div {
     display: flex;
     align-items: center;
 }
-#form> div >img {
+
+#form>div>img {
     width: 40px;
     height: auto;
     cursor: pointer;
 
 }
+
 #input {
     border: none;
     padding: 16px;
@@ -164,18 +180,23 @@ h1 {
     z-index: 1000;
     gap: 50px;
 }
+
 .align-button {
-    
+
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.popup > div > img {
+
+.popup>div>img {
     width: 400px;
 }
-.popup > div > h1 {
+
+.popup>div>h1 {
     font-size: 3em;
-    font-weight: bold;
+    font-family: "Lilita One", serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .popup-content {
@@ -219,12 +240,14 @@ h1 {
 .popup-content button:hover {
     background-color: #3A79B3;
 }
+
 /*Fim de entrada*/
 
 @keyframes fadeIn {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -236,36 +259,50 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #0582CA; /* Cor de fundo */
+    background-color: #0582CA;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 9999; /* Garantir que fique acima de tudo */
+    z-index: 9999;
     transition: opacity 0.5s ease-in-out;
 }
 
+#vinheta h1 {
+    font-size: 3em;
+    font-family: "Lilita One", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 #vinheta img {
-    max-width: 300px; /* Tamanho do GIF */
+    max-width: 300px;
+    /* Tamanho do GIF */
     height: auto;
 }
 
-@media (width <= 500px) {
+@media (width <=500px) {
     #messages>li {
         width: 80%;
     }
+
     .popup {
         flex-direction: column;
     }
+
     .button-logar {
         margin-top: 15px;
     }
-    .popup > div > img {
+
+    .popup>div>img {
         width: 300px;
     }
-    .popup > div > h1 {
+
+    .popup>div>h1 {
         font-size: 2em;
         font-weight: bold;
     }
+
     #input {
         border: none;
         padding: 16px;
@@ -274,10 +311,18 @@ h1 {
         border-radius: 2rem;
         font-size: 16px;
     }
+
     #messages {
         height: 450px;
     }
-    #messages > li {
+
+    #messages>li {
         width: 50%;
+    }
+
+    #vinheta img {
+        max-width: 500px;
+        /* Tamanho do GIF */
+        height: auto;
     }
 }
