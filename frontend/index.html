@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="PT_BR">
 
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <link rel="shortcut icon" href="image/safetalkImg.png" type="image/x-icon">
     <title>Chat</title>
 </head>
 
@@ -33,16 +34,19 @@
         </div>
         <ul id="messages"></ul>
         <div id="typing-status"></div>
+        
+    </main>
+    <footer>
         <form id="form">
             <div>
                 <img src="image/Plusm.png" alt="">
             </div>
             <input autocomplete="off" placeholder="Digite sua mensagem.." id="input">
-            <div id="send-message-btn">
-                <img src="image/Sent.png" alt="">
+            <div id="send-message-btn" aria-label="Enviar mensagem">
+                <img src="image/Sent.png" alt="Enviar">
             </div>
         </form>
-    </main>
+    </footer>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
