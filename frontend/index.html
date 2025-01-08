@@ -11,19 +11,33 @@
 <body>
     <main>
         <div id="name-popup" class="popup">
-            <div class="popup-content">
-                <h2>Bem-vindo ao SafeTalk!</h2>
-                <p>Por favor, insira seu nome para começar:</p>
-                <input type="text" id="username-input" placeholder="Digite seu nome...">
-                <button id="start-chat-btn">Entrar</button>
+            <div>
+                <img src="image/safetalkImg.png" alt="">
+                <h1>SafeTalk</h1>
+            </div>
+            <div>
+                <div class="popup-content">
+                    <p>Por favor, insira seu nome para começar:</p>
+                    <input type="text" id="username-input" placeholder="Digite seu nome...">
+                </div>
+                <div class="align-button">
+                    <button id="start-chat-btn" class="button-logar">Entrar</button>
+                </div>
             </div>
         </div>
-        <h1>SafeTalk</h1>
-        <ul id="messages" ></ul>
+        <div class="header">
+            <h1>SafeTalk</h1>
+        </div>
+        <ul id="messages"></ul>
         <div id="typing-status"></div>
         <form id="form">
+            <div>
+                <img src="image/Plusm.png" alt="">
+            </div>
             <input autocomplete="off" placeholder="Digite sua mensagem.." id="input">
-            <button>Send</button>
+            <div id="send-message-btn">
+                <img src="image/Sent.png" alt="">
+            </div>
         </form>
     </main>
 
@@ -31,11 +45,12 @@
     <script>
         var socket = io();
         const message = document.getElementById('messages')
-        const input = document .getElementById('input')
+        const input = document.getElementById('input')
         const typingStatus = document.getElementById('typing-status');
         const popup = document.getElementById('name-popup');
         const usernameInput = document.getElementById('username-input');
         const startChatBtn = document.getElementById('start-chat-btn');
+        const sendMessageBtn = document.getElementById('send-message-btn');
         let typingTimeout; // Armazena o temporizador para parar de digitar
         let userName = ""; // Nome do usuário
 
@@ -51,23 +66,37 @@
                 alert("Por favor, insira um nome!");
             }
         });
-    
 
+
+        sendMessageBtn.addEventListener('click', () => {
+            if (input.value) {
+                const msg = { content: input.value, name: userName, fromUser: true };
+
+                socket.emit('message', msg);
+                input.value = '';
+                typingStatus.textContent = '';
+                clearTimeout(typingTimeout);
+                socket.emit('stopTyping');
+
+            }
+        });
         input.addEventListener('input', () => {
-            clearTimeout(typingTimeout);
+            clearTimeout(typingTimeout); // Limpa o temporizador anterior
+        
+            // Emitir o evento de que o usuário está digitando
             socket.emit('typing', userName);
-
+        
+            // Configurar um novo temporizador para parar o "digitando"
             typingTimeout = setTimeout(() => {
                 socket.emit('stopTyping');
-            }, 1500);
+            }, 1500); // Após 1500ms, o status de "digitando" desaparece
         });
 
         document.addEventListener('submit', (e) => {
             e.preventDefault() //Para não atualizar quando clicar em submit 
 
-            if(input.value) {
-                const msg = { content: input.value, name: userName, fromUser: true};
-
+            if (input.value) {
+                const msg = { content: input.value, name: userName, fromUser: true };
 
                 socket.emit('message', msg);
                 input.value = ''
