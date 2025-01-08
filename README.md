@@ -40,12 +40,14 @@ npm run dev
 ```
 **6. O servidor estará rodando na porta 3000 por padrão. Você pode acessar o aplicativo no seu navegador em http://localhost:3000.**
 
-# Contribuindo
-Sinta-se à vontade para fazer forks, criar issues ou enviar pull requests. Toda contribuição é bem-vinda!
 
 # Configuração Microsoft Azure
 
 O projeto foi deployado no **Azure App Service**. Para realizar o deploy, foi utilizado o repositório GitHub, permitindo que o código seja automaticamente sincronizado e implantado no Azure. O ambiente foi configurado para rodar a aplicação Node.js na porta padrão 8080, conforme exigido pelo Azure. A aplicação está acessível através da URL fornecida pelo serviço.
+
+# Contribuindo
+Sinta-se à vontade para fazer forks, criar issues ou enviar pull requests. Toda contribuição é bem-vinda!
+
 
 # Licença
 Este projeto está licenciado sob a [MIT License](LICENSE).
