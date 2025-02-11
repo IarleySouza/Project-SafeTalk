@@ -98,7 +98,7 @@
         });
         socket.on('image', (data) => {
             const li = document.createElement('li');
-            li.innerHTML = `<strong>${data.name}:</strong><br><img src="${data.image}" alt="Imagem enviada" style="max-width: 300px; border-radius: 8px;">`;
+            li.innerHTML = `<strong>${data.name}:</strong><br><img src="${data.image}" alt="Imagem enviada" style="max-width: 200px; border-radius: 8px;">`;
         
             if (data.name === userName) {
                 li.classList.add('user-message');

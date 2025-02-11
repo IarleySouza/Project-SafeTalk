@@ -288,11 +288,10 @@ h1 {
 
 @media (width <=500px) {
     .user-message img, .other-message img {
-        max-width: 90%;  /* ou ajuste para o valor que fizer mais sentido */
+        max-width: auto;  
         height: auto;
         border-radius: 8px; 
     }
-    
     #messages>li {
         width: auto;
     }
