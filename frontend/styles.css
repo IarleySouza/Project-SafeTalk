@@ -162,7 +162,7 @@ h1 {
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 8px;
-    width: 50%;
+    width: auto;
     word-wrap: break-word;
 }
 
@@ -291,9 +291,6 @@ h1 {
         max-width: auto;  
         height: auto;
         border-radius: 8px; 
-    }
-    #messages>li {
-        width: auto;
     }
     .popup {
         flex-direction: column;
