@@ -31,6 +31,7 @@
                 <div class="align-button">
                     <button id="start-chat-btn" class="button-logar">Entrar</button>
                 </div>
+
             </div>
         </div>
         <div class="header">
@@ -38,12 +39,13 @@
         </div>
         <ul id="messages"></ul>
         <div id="typing-status"></div>
-        
+
     </main>
     <footer>
         <form id="form">
             <div>
-                <img src="image/Plusm.png" alt="">
+                <input type="file" id="image-input" accept="image/*" style="display: none;">
+                <img src="image/fotos.png" alt="Enviar imagens" id="image-btn" style="cursor: pointer;">
             </div>
             <input autocomplete="off" placeholder="Digite sua mensagem.." id="input">
             <div id="send-message-btn" aria-label="Enviar mensagem">
@@ -62,6 +64,8 @@
             }, 3000); // 3 segundos de duração
         });
         var socket = io();
+        const imageInput = document.getElementById('image-input');
+        const imageBtn = document.getElementById('image-btn');
         const message = document.getElementById('messages')
         const input = document.getElementById('input')
         const typingStatus = document.getElementById('typing-status');
@@ -71,6 +75,40 @@
         const sendMessageBtn = document.getElementById('send-message-btn');
         let typingTimeout; // Armazena o temporizador para parar de digitar
         let userName = ""; // Nome do usuário
+
+        // Abrir o seletor de arquivos quando o botão for clicado
+        imageBtn.addEventListener('click', () => {
+            imageInput.click();
+        });
+        // Quando a imagem for selecionada
+        imageInput.addEventListener('change', () => {
+            const file = imageInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (event) {
+                    const imgData = event.target.result;
+
+                    // Enviar a imagem pelo socket
+                    socket.emit('image', { name: userName, image: imgData });
+                };
+
+                reader.readAsDataURL(file); // Converte a imagem para base64
+            }
+        });
+        socket.on('image', (data) => {
+            const li = document.createElement('li');
+            li.innerHTML = `<strong>${data.name}:</strong><br><img src="${data.image}" alt="Imagem enviada" style="max-width: 300px; border-radius: 8px;">`;
+        
+            if (data.name === userName) {
+                li.classList.add('user-message');
+            } else {
+                li.classList.add('other-message');
+            }
+        
+            message.appendChild(li);
+            message.scrollTop = message.scrollHeight;
+        });
 
         startChatBtn.addEventListener('click', () => {
             const enteredName = usernameInput.value.trim();
@@ -100,10 +138,10 @@
         });
         input.addEventListener('input', () => {
             clearTimeout(typingTimeout); // Limpa o temporizador anterior
-        
+
             // Emitir o evento de que o usuário está digitando
             socket.emit('typing', userName);
-        
+
             // Configurar um novo temporizador para parar o "digitando"
             typingTimeout = setTimeout(() => {
                 socket.emit('stopTyping');

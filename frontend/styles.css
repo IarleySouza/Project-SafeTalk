@@ -280,6 +280,11 @@ h1 {
     /* Tamanho do GIF */
     height: auto;
 }
+.user-message img, .other-message img {
+    max-width: 300px;
+    border-radius: 8px;
+    margin-top: 5px;
+}
 
 @media (width <=500px) {
     #messages>li {

@@ -40,7 +40,17 @@ class App {
             socket.on('stopTyping', () => {
                 socket.broadcast.emit('stopTyping'); // Emitir que a pessoa parou de digitar
             });
+            socket.on('image', (data) => {
+                console.log(`Imagem recebida de ${data.name}`);
+                
+                // Envia de volta para quem enviou
+                socket.emit('image', data);
+            
+                // Envia para todos os outros usuários
+                socket.broadcast.emit('image', data);
+            });
         });
+        
     }
     setupRoutes() {
         this.app.use(express.static(path.resolve(__dirname, '../../frontend')));
