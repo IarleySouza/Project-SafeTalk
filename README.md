@@ -51,3 +51,6 @@ Sinta-se à vontade para fazer forks, criar issues ou enviar pull requests. Toda
 
 # Licença
 Este projeto está licenciado sob a [MIT License](LICENSE).
+
+# Acesso ao site.
+Acesse o site [aqui](https://safetalk-back-badvbjajebc2d4aw.canadacentral-01.azurewebsites.net/).
