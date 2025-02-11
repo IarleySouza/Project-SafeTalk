@@ -287,22 +287,24 @@ h1 {
 }
 
 @media (width <=500px) {
-    #messages>li {
-        width: 80%;
+    .user-message img, .other-message img {
+        max-width: 90%;  /* ou ajuste para o valor que fizer mais sentido */
+        height: auto;
+        border-radius: 8px; 
     }
-
+    
+    #messages>li {
+        width: auto;
+    }
     .popup {
         flex-direction: column;
     }
-
     .button-logar {
         margin-top: 15px;
     }
-
     .popup>div>img {
         width: 300px;
     }
-
     .popup>div>h1 {
         font-size: 2em;
         font-weight: bold;
@@ -321,9 +323,7 @@ h1 {
         height: 450px;
     }
 
-    #messages>li {
-        width: 50%;
-    }
+    
 
     #vinheta img {
         max-width: 500px;
