@@ -61,7 +61,6 @@ main {
 }
 
 #send-message-btn:active {
-    transform: scale(0.95);
     background-color: #003554;
 }
 
@@ -142,7 +141,6 @@ h1 {
 
 #input:focus {
     outline: none;
-    border: 2px solid #00A6FB;
     box-shadow: 0 0 5px rgba(0, 166, 251, 0.5);
 }
 
@@ -342,16 +340,14 @@ h1 {
         border-radius: 2rem;
         font-size: 16px;
     }
-
     #messages {
-        height: 450px;
+        height: 100%;
+        margin-bottom: 50px;
     }
-
-    
-
     #vinheta img {
         max-width: 500px;
         /* Tamanho do GIF */
         height: auto;
     }
 }
+
