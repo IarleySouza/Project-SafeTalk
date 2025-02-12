@@ -13,6 +13,7 @@
 </head>
 
 <body>
+    
     <main>
         <div id="vinheta">
             <img src="image/safetalk_gif.gif" alt="Telefone se mexendo">
@@ -34,8 +35,16 @@
 
             </div>
         </div>
+
         <div class="header">
-            <h1>SafeTalk</h1>
+            <div id="img-logo-ini">
+                <img src="image/safetalkImg.png" alt="">
+                <h1>SafeTalk</h1>
+            </div>
+            <div id="usu-onli">
+                <h2>Usuários Online</h2>
+                <ul id="online-users"></ul>
+            </div>
         </div>
         <ul id="messages"></ul>
         <div id="typing-status"></div>
@@ -79,8 +88,9 @@
         const usernameInput = document.getElementById('username-input');
         const startChatBtn = document.getElementById('start-chat-btn');
         const sendMessageBtn = document.getElementById('send-message-btn');
-        let typingTimeout; // Armazena o temporizador para parar de digitar
-        let userName = ""; // Nome do usuário
+        const onlineUsersList = document.getElementById('online-users');
+        let typingTimeout;
+        let userName = ""; 
 
         // Abrir o seletor de arquivos quando o botão for clicado
         imageBtn.addEventListener('click', () => {
@@ -173,6 +183,8 @@
                 input.disabled = false;
                 input.focus();
                 document.querySelector('button').disabled = false;
+                // Emitir o evento de que o usuário entrou no chat
+                socket.emit('userJoined', userName);
             } else {
                 alert("Por favor, insira um nome!");
             }
@@ -188,12 +200,8 @@
             }
         });
         input.addEventListener('input', () => {
-            clearTimeout(typingTimeout); // Limpa o temporizador anterior
-
-            // Emitir o evento de que o usuário está digitando
+            clearTimeout(typingTimeout); 
             socket.emit('typing', userName);
-
-            // Configurar um novo temporizador para parar o "digitando"
             typingTimeout = setTimeout(() => {
                 socket.emit('stopTyping');
             }, 1500); // Após 1500ms, o status de "digitando" desaparece
@@ -201,10 +209,8 @@
 
         document.addEventListener('submit', (e) => {
             e.preventDefault() //Para não atualizar quando clicar em submit 
-
             if (input.value) {
                 const msg = { content: input.value, name: userName, fromUser: true };
-
                 socket.emit('message', msg);
                 input.value = ''
                 typingStatus.textContent = '';
@@ -233,6 +239,16 @@
 
         socket.on('stopTyping', () => {
             typingStatus.textContent = '';
+        });
+
+        // Atualizar a lista de usuários online
+        socket.on('updateUsers', (users) => {
+            onlineUsersList.innerHTML = '';
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = user;
+                onlineUsersList.appendChild(li);
+            });
         });
     </script>
 </body>

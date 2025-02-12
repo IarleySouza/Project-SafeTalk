@@ -77,9 +77,17 @@ h1 {
     height: 100px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+}
+#img-logo-ini {
+    display: flex;
+    align-items: center;
     justify-content: center;
 }
 
+#img-logo-ini img{
+    width: 100px;
+}
 .header h1 {
     margin: 0;
     padding: 0;
@@ -310,9 +318,29 @@ h1 {
     font-size: 40px;
     cursor: pointer;
 }
+#usu-onli {
+    color: #fff;
+    margin-right: 30px;
+
+}
+#usu-onli ul {
+    list-style-type: none;
+}
 
 
 @media (width <=500px) {
+    #img-logo-ini h1 {
+        display: none;
+    }
+    #img-logo-ini img {
+        width: 120px;
+    }
+    #usu-onli h2 {
+        font-size: 1em;
+    }
+    #usu-onli ul {
+        color: rgb(6, 206, 6);
+    }
     .user-message img, .other-message img {
         max-width: auto;  
         height: auto;
