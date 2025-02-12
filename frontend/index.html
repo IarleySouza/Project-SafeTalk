@@ -86,22 +86,7 @@
         imageBtn.addEventListener('click', () => {
             imageInput.click();
         });
-        // Quando a imagem for selecionada
-        imageInput.addEventListener('change', () => {
-            const file = imageInput.files[0];
-            if (file) {
-                const reader = new FileReader();
 
-                reader.onload = function (event) {
-                    const imgData = event.target.result;
-
-                    // Enviar a imagem pelo socket
-                    socket.emit('image', { name: userName, image: imgData });
-                };
-
-                reader.readAsDataURL(file); // Converte a imagem para base64
-            }
-        });
         socket.on('image', (data) => {
             const li = document.createElement('li');
             const img = document.createElement('img');
@@ -140,57 +125,6 @@
             }
         });
 
-        startChatBtn.addEventListener('click', () => {
-            const enteredName = usernameInput.value.trim();
-            if (enteredName) {
-                userName = enteredName;
-                popup.style.display = 'none';
-                input.disabled = false;
-                input.focus();
-                document.querySelector('button').disabled = false;
-            } else {
-                alert("Por favor, insira um nome!");
-            }
-        });
-
-
-        sendMessageBtn.addEventListener('click', () => {
-            if (input.value) {
-                const msg = { content: input.value, name: userName, fromUser: true };
-
-                socket.emit('message', msg);
-                input.value = '';
-                typingStatus.textContent = '';
-                clearTimeout(typingTimeout);
-                socket.emit('stopTyping');
-
-            }
-        });
-        input.addEventListener('input', () => {
-            clearTimeout(typingTimeout); // Limpa o temporizador anterior
-
-            // Emitir o evento de que o usuário está digitando
-            socket.emit('typing', userName);
-
-            // Configurar um novo temporizador para parar o "digitando"
-            typingTimeout = setTimeout(() => {
-                socket.emit('stopTyping');
-            }, 1500); // Após 1500ms, o status de "digitando" desaparece
-        });
-
-        document.addEventListener('submit', (e) => {
-            e.preventDefault() //Para não atualizar quando clicar em submit 
-
-            if (input.value) {
-                const msg = { content: input.value, name: userName, fromUser: true };
-
-                socket.emit('message', msg);
-                input.value = ''
-                typingStatus.textContent = '';
-                clearTimeout(typingTimeout);
-                socket.emit('stopTyping');
-            }
-        });
         imageInput.addEventListener('change', () => {
             const file = imageInput.files[0];
             const maxSize = 2 * 1024 * 1024; // 2MB
@@ -228,12 +162,56 @@
                         socket.emit('image', { name: userName, image: compressedData });
                     };
                 };
-
                 reader.readAsDataURL(file);
             }
         });
+        startChatBtn.addEventListener('click', () => {
+            const enteredName = usernameInput.value.trim();
+            if (enteredName) {
+                userName = enteredName;
+                popup.style.display = 'none';
+                input.disabled = false;
+                input.focus();
+                document.querySelector('button').disabled = false;
+            } else {
+                alert("Por favor, insira um nome!");
+            }
+        });
+        sendMessageBtn.addEventListener('click', () => {
+            if (input.value) {
+                const msg = { content: input.value, name: userName, fromUser: true };
+                socket.emit('message', msg);
+                input.value = '';
+                typingStatus.textContent = '';
+                clearTimeout(typingTimeout);
+                socket.emit('stopTyping');
+            }
+        });
+        input.addEventListener('input', () => {
+            clearTimeout(typingTimeout); // Limpa o temporizador anterior
 
+            // Emitir o evento de que o usuário está digitando
+            socket.emit('typing', userName);
 
+            // Configurar um novo temporizador para parar o "digitando"
+            typingTimeout = setTimeout(() => {
+                socket.emit('stopTyping');
+            }, 1500); // Após 1500ms, o status de "digitando" desaparece
+        });
+
+        document.addEventListener('submit', (e) => {
+            e.preventDefault() //Para não atualizar quando clicar em submit 
+
+            if (input.value) {
+                const msg = { content: input.value, name: userName, fromUser: true };
+
+                socket.emit('message', msg);
+                input.value = ''
+                typingStatus.textContent = '';
+                clearTimeout(typingTimeout);
+                socket.emit('stopTyping');
+            }
+        });
         socket.on('message', (msg) => {
             const li = document.createElement('li')
             li.textContent = `${msg.name}: ${msg.content}`;
@@ -253,7 +231,6 @@
             typingStatus.textContent = `${name} está digitando...`;
         });
 
-        // Limpar o status de digitação
         socket.on('stopTyping', () => {
             typingStatus.textContent = '';
         });
