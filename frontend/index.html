@@ -58,7 +58,7 @@
         <span id="close-popup">&times;</span>
         <img id="popup-img" src="" alt="Imagem em destaque">
     </div>
-    
+
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -110,17 +110,17 @@
             img.style.maxWidth = '200px';
             img.style.borderRadius = '8px';
             img.style.cursor = 'pointer';
-        
+
             img.addEventListener('click', () => {
                 const popup = document.getElementById('image-popup');
                 const popupImg = document.getElementById('popup-img');
                 popupImg.src = img.src;
                 popup.style.display = 'flex';
             });
-        
+
             li.innerHTML = `<strong>${data.name}:</strong><br>`;
             li.appendChild(img);
-        
+
             if (data.name === userName) {
                 li.classList.add('user-message');
             } else {
@@ -191,6 +191,48 @@
                 socket.emit('stopTyping');
             }
         });
+        imageInput.addEventListener('change', () => {
+            const file = imageInput.files[0];
+            const maxSize = 2 * 1024 * 1024; // 2MB
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (event) {
+                    const img = new Image();
+                    img.src = event.target.result;
+
+                    img.onload = function () {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+
+                        // Define largura máxima (ex: 800px)
+                        const maxWidth = 800;
+                        const scaleFactor = maxWidth / img.width;
+
+                        canvas.width = img.width > maxWidth ? maxWidth : img.width;
+                        canvas.height = img.height * (img.width > maxWidth ? scaleFactor : 1);
+
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                        // Converte para JPEG comprimido (qualidade entre 0 e 1)
+                        const compressedData = canvas.toDataURL('image/jpeg', 0.7); // 70% da qualidade original
+
+                        // Verifica o tamanho após compressão
+                        if (compressedData.length * (3 / 4) > maxSize) {
+                            alert("A imagem ainda é muito grande, mesmo após a compressão.");
+                            return;
+                        }
+
+                        // Enviar a imagem comprimida via socket
+                        socket.emit('image', { name: userName, image: compressedData });
+                    };
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+
 
         socket.on('message', (msg) => {
             const li = document.createElement('li')
