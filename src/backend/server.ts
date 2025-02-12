@@ -12,6 +12,12 @@ class App {
         this.app = express();
         this.http = http.createServer(this.app);
         this.io = new Server(this.http);
+
+        // Aumentar o limite de tamanho para 10MB
+        this.io = new Server(this.http, {
+            maxHttpBufferSize: 10e6 // 10MB
+        });
+
         this.listenSocket();
         this.setupRoutes();
     }
@@ -35,8 +41,6 @@ class App {
             socket.on('typing', (name) => {
                 socket.broadcast.emit('typing', name); // Inclui o nome de quem está digitando
             });
-
-
             socket.on('stopTyping', () => {
                 socket.broadcast.emit('stopTyping'); // Emitir que a pessoa parou de digitar
             });

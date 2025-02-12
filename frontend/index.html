@@ -54,6 +54,12 @@
         </form>
     </footer>
 
+    <div id="image-popup" class="image-popup">
+        <span id="close-popup">&times;</span>
+        <img id="popup-img" src="" alt="Imagem em destaque">
+    </div>
+    
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
         window.addEventListener('load', () => {
@@ -98,16 +104,40 @@
         });
         socket.on('image', (data) => {
             const li = document.createElement('li');
-            li.innerHTML = `<strong>${data.name}:</strong><br><img src="${data.image}" alt="Imagem enviada" style="max-width: 200px; border-radius: 8px;">`;
+            const img = document.createElement('img');
+            img.src = data.image;
+            img.alt = "Imagem enviada";
+            img.style.maxWidth = '200px';
+            img.style.borderRadius = '8px';
+            img.style.cursor = 'pointer';
+        
+            img.addEventListener('click', () => {
+                const popup = document.getElementById('image-popup');
+                const popupImg = document.getElementById('popup-img');
+                popupImg.src = img.src;
+                popup.style.display = 'flex';
+            });
+        
+            li.innerHTML = `<strong>${data.name}:</strong><br>`;
+            li.appendChild(img);
         
             if (data.name === userName) {
                 li.classList.add('user-message');
             } else {
                 li.classList.add('other-message');
             }
-        
             message.appendChild(li);
             message.scrollTop = message.scrollHeight;
+        });
+
+        document.getElementById('close-popup').addEventListener('click', () => {
+            document.getElementById('image-popup').style.display = 'none';
+        });
+
+        document.getElementById('image-popup').addEventListener('click', (event) => {
+            if (event.target === document.getElementById('image-popup')) {
+                document.getElementById('image-popup').style.display = 'none';
+            }
         });
 
         startChatBtn.addEventListener('click', () => {
