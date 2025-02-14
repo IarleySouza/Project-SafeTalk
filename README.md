@@ -11,9 +11,10 @@ Este projeto é uma aplicação de chat em tempo real, utiliza WebSockets com So
 
 # Funcionalidades
 * Comunicação em tempo real com WebSockets usando Socket.io.
-* Envio e recebimento de mensagens entre os clientes.
+* Envio e recebimento de mensagens e imagens entre os clientes.
 * Exibição de mensagens em tempo real, sem necessidade de recarregar a página.
 * Exibição de status de usuários digitando.
+
 
 ## 🚀 Comandos para rodar o projeto
 ### Passos para configurar o ambiente local e rodar o Chat WebSocket
